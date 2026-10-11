@@ -6,6 +6,8 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # Show the six sample listings until the Django backend is hosted. Remove once real listings are live.
+  NEXT_PUBLIC_DEMO_LISTINGS = "true"
 
 # Run Netlify's Next.js runtime explicitly so server pages, route handlers and images get functions.
 [[plugins]]

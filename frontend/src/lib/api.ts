@@ -19,6 +19,13 @@ import type {
   SiteSettings,
 } from "./types";
 import { FALLBACK_SITE_SETTINGS } from "./site";
+import {
+  DEMO_LISTINGS_ENABLED,
+  demoProperty,
+  demoPropertyFacets,
+  demoPropertyList,
+  demoRelated,
+} from "./demoListings";
 
 const API_URL = (process.env.API_URL || "http://localhost:8000").replace(/\/$/, "");
 const DEFAULT_REVALIDATE = Number(process.env.API_REVALIDATE_SECONDS || 300);
@@ -80,17 +87,36 @@ export type PropertyQuery = {
   page_size?: string;
 };
 
-export const getProperties = (query: PropertyQuery = {}) =>
-  apiGet<Paginated<PropertySummary>>("properties/", { tags: ["properties"], query });
+// When demo listings are switched on and the API is unreachable, fall back to sample data.
+function withDemo<T>(res: ApiResult<T>, demo: () => T | null): ApiResult<T> {
+  if (res.ok || res.error !== "unavailable" || !DEMO_LISTINGS_ENABLED) return res;
+  const data = demo();
+  return data === null ? { ok: false, error: "not-found" } : { ok: true, data };
+}
 
-export const getPropertyFacets = (category?: string) =>
-  apiGet<PropertyFacets>("properties/facets/", { tags: ["properties"], query: { category } });
+export const getProperties = async (query: PropertyQuery = {}) =>
+  withDemo(await apiGet<Paginated<PropertySummary>>("properties/", { tags: ["properties"], query }), () =>
+    demoPropertyList(query),
+  );
 
-export const getProperty = (slug: string) =>
-  apiGet<PropertyDetail>(`properties/${encodeURIComponent(slug)}/`, { tags: ["properties", `property:${slug}`] });
+export const getPropertyFacets = async (category?: string) =>
+  withDemo(await apiGet<PropertyFacets>("properties/facets/", { tags: ["properties"], query: { category } }), () =>
+    demoPropertyFacets(category),
+  );
 
-export const getRelatedProperties = (slug: string) =>
-  apiGet<PropertySummary[]>(`properties/${encodeURIComponent(slug)}/related/`, { tags: ["properties"] });
+export const getProperty = async (slug: string) =>
+  withDemo(
+    await apiGet<PropertyDetail>(`properties/${encodeURIComponent(slug)}/`, {
+      tags: ["properties", `property:${slug}`],
+    }),
+    () => demoProperty(slug),
+  );
+
+export const getRelatedProperties = async (slug: string) =>
+  withDemo(
+    await apiGet<PropertySummary[]>(`properties/${encodeURIComponent(slug)}/related/`, { tags: ["properties"] }),
+    () => demoRelated(slug),
+  );
 
 export const getProjects = (query: { category?: string; status?: string; page?: string; featured?: string; page_size?: string } = {}) =>
   apiGet<Paginated<ProjectSummary>>("projects/", { tags: ["projects"], query });
