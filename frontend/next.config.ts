@@ -30,6 +30,8 @@ const nextConfig: NextConfig = {
         port: mediaUrl.port,
         pathname: "/media/**",
       },
+      // Illustrative stock photos used by the demo listings (src/lib/demoListings.ts).
+      { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },
     ],
     dangerouslyAllowLocalIP: isLocalMedia && process.env.NODE_ENV !== "production",
   },

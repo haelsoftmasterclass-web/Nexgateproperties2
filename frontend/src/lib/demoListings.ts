@@ -8,6 +8,19 @@ import type { Paginated, PropertyDetail, PropertyFacets, PropertySummary } from 
  */
 export const DEMO_LISTINGS_ENABLED = process.env.NEXT_PUBLIC_DEMO_LISTINGS === "true";
 
+const unsplash = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=1600&q=80`;
+const PHOTO_CAPTION = "Illustrative stock photo (Unsplash). Not the actual property.";
+
+// Free-licence Unsplash photos chosen to match each property type.
+const PHOTOS: Record<string, string[]> = {
+  "demo-3-bedroom-terrace-duplex-lekki": ["1600596542815-ffad4c1539a9", "1586023492125-27b2c045efd7", "1556909114-f6e7ad7d3136"],
+  "demo-2-bedroom-apartment-ajah": ["1545324418-cc1a3fa10c00", "1502672260266-1c1ef2d93688", "1522708323590-d24dbb6b0267"],
+  "demo-office-space-ikeja": ["1497366216548-37526070297c", "1497366811353-6870744d04b2", "1524758631624-e2822e304c36"],
+  "demo-3-bedroom-semi-detached-gwarinpa": ["1570129477492-45c003edd2be", "1505691938895-1758d7feb511"],
+  "demo-4-bedroom-detached-bungalow-lugbe": ["1564013799919-ab600027ffc6", "1512917774080-9991f1c4c750"],
+  "demo-retail-shop-wuse": ["1441986300917-64674bd600d8", "1567401893414-76b7b1e5a7a5"],
+};
+
 const DEMO_NOTE = "Demo listing for previewing the website. It is not a real property and is not for sale.";
 
 type DemoInput = Pick<
@@ -120,15 +133,19 @@ export const DEMO_PROPERTIES: PropertyDetail[] = inputs.map(({ area, ...p }) => 
   listing_status: "available",
   listing_status_label: "Demo",
   land_area_sqm: null,
-  featured_image: null,
-  featured_image_alt: "",
+  featured_image: unsplash(PHOTOS[p.slug][0]),
+  featured_image_alt: `Illustrative photo for ${p.title}`,
   description: `${DEMO_NOTE}\n\nThis sample shows how a ${p.property_type_label.toLowerCase()} listing in ${area} will look once Nexgate Properties publishes real listings from the admin.`,
   address: "",
   units: null,
   amenities: [],
   location_notes: "",
   documentation_notes: "",
-  images: [],
+  images: PHOTOS[p.slug].map((id, i) => ({
+    image: unsplash(id),
+    alt_text: `Illustrative photo ${i + 1} for ${p.title}`,
+    caption: PHOTO_CAPTION,
+  })),
   project: null,
   seo_title: "",
   meta_description: DEMO_NOTE,
