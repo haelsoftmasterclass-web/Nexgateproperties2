@@ -16,3 +16,5 @@ frontend/next-env.d.ts
 frontend/.env.local
 # OS
 .DS_Store
+# Netlify
+.netlify/
