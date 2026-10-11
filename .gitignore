@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+backend/.venv/
+backend/staticfiles/
+backend/media/
+backend/db.sqlite3
+# Node
+frontend/node_modules/
+frontend/.next/
+frontend/next-env.d.ts
+# Env
+.env
+.env.*
+!.env.example
+frontend/.env.local
+# OS
+.DS_Store

@@ -1,0 +1,217 @@
+@import "tailwindcss";
+
+/*
+ * Nexgate Properties design tokens.
+ * Colours are sampled from the supplied logo (brand red matches the Nexgate Group red #B01F31).
+ * See docs/DESIGN_SYSTEM.md for usage rules.
+ */
+@theme {
+  --color-brand-50: #fbf1f2;
+  --color-brand-100: #f5dde0;
+  --color-brand-200: #e9b5bc;
+  --color-brand-500: #b01f31;
+  --color-brand-600: #9a1a2b;
+  --color-brand-700: #800d27;
+  --color-brand-900: #3d0712;
+
+  --color-gold-300: #e3cf8a;
+  --color-gold-500: #c9a84c;
+  --color-gold-700: #8f7329;
+
+  --color-ink: #1d1b1a;
+  --color-charcoal: #252525;
+  --color-muted: #5f6672;
+  --color-paper: #f7f6f3;
+  --color-sand: #efece6;
+  --color-line: #e5e7eb;
+  --color-success: #1f7a4d;
+  --color-danger: #b42318;
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-instrument), ui-serif, Georgia, serif;
+
+  --radius-card: 1rem;
+  --radius-field: 0.625rem;
+
+  --shadow-card: 0 1px 2px rgb(29 27 26 / 0.04), 0 8px 24px -12px rgb(29 27 26 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(29 27 26 / 0.05), 0 24px 48px -20px rgb(61 7 18 / 0.25);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-marquee: marquee 40s linear infinite;
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: #ffffff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--color-brand-500);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* ---------- Euler-style scroll reveals ----------
+ * Elements marked [data-reveal] start hidden only once JS confirms motion is allowed
+ * (html.motion-ready), so content is always visible without JavaScript.
+ */
+.motion-ready [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  filter: blur(6px);
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    transform 0.9s var(--ease-out-expo),
+    filter 0.9s var(--ease-out-expo);
+  transition-delay: calc(var(--reveal-delay, 0) * 1ms);
+  will-change: opacity, transform;
+}
+.motion-ready [data-reveal="fade"] {
+  transform: none;
+}
+.motion-ready [data-reveal="scale"] {
+  transform: scale(0.96);
+}
+.motion-ready [data-reveal][data-revealed="true"] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Headline word-by-word mask reveal */
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.split-word > span {
+  display: inline-block;
+}
+.motion-ready .split-heading .split-word > span {
+  transform: translate3d(0, 105%, 0);
+  transition: transform 1.1s var(--ease-out-expo);
+  transition-delay: calc(var(--word-index) * 70ms + var(--split-delay, 0) * 1ms);
+}
+.motion-ready .split-heading[data-revealed="true"] .split-word > span {
+  transform: none;
+}
+
+/* Line-art drawing for the hero architecture illustration */
+.motion-ready .draw-path {
+  stroke-dasharray: var(--path-length, 1200);
+  stroke-dashoffset: var(--path-length, 1200);
+  animation: draw 2.4s var(--ease-out-expo) forwards;
+  animation-delay: calc(var(--draw-delay, 0) * 1ms);
+}
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.motion-ready .fade-in-late {
+  opacity: 0;
+  animation: fade-in 1.2s var(--ease-out-expo) forwards;
+  animation-delay: calc(var(--fade-delay, 900) * 1ms);
+}
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Image hover zoom inside cards */
+.card-media img {
+  transition: transform 1.2s var(--ease-out-expo);
+}
+.group:hover .card-media img {
+  transform: scale(1.045);
+}
+
+.marquee-mask {
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+}
+
+/* Long-form content from the CMS */
+.prose-nexgate {
+  color: var(--color-charcoal);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+}
+.prose-nexgate > * + * {
+  margin-top: 1.1em;
+}
+.prose-nexgate h2 {
+  font-size: 1.6rem;
+  line-height: 1.25;
+  font-weight: 700;
+  margin-top: 2.2em;
+  color: var(--color-ink);
+}
+.prose-nexgate h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1.8em;
+  color: var(--color-ink);
+}
+.prose-nexgate ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.prose-nexgate ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+}
+.prose-nexgate li + li {
+  margin-top: 0.4em;
+}
+.prose-nexgate a {
+  color: var(--color-brand-500);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
