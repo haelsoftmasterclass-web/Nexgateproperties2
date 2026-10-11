@@ -1,0 +1,8 @@
+# Netlify builds the Next.js site in frontend/. The Django backend is hosted separately (see docs/DEPLOYMENT.md).
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
