@@ -36,10 +36,7 @@ const CAPTION = {
 
 // Homes use design renders supplied by Nexgate; commercial units use free-licence Unsplash photos.
 const PHOTOS: Record<string, DemoPhoto[]> = {
-  "demo-3-bedroom-terrace-duplex-lekki": [
-    impression("terrace-street"),
-    impression("terrace-aerial"),
-  ],
+  "demo-3-bedroom-terrace-duplex-lekki": [impression("villa-low-angle")],
   "demo-2-bedroom-apartment-ajah": [impression("white-modern-house")],
   "demo-office-space-ikeja": [
     "1497366216548-37526070297c",
@@ -47,10 +44,7 @@ const PHOTOS: Record<string, DemoPhoto[]> = {
     "1524758631624-e2822e304c36",
   ].map(stock),
   "demo-3-bedroom-semi-detached-gwarinpa": [impression("modern-house-cars")],
-  "demo-4-bedroom-detached-bungalow-lugbe": [
-    impression("villa-pool"),
-    impression("villa-low-angle"),
-  ],
+  "demo-4-bedroom-detached-bungalow-lugbe": [impression("villa-pool")],
   "demo-retail-shop-wuse": [
     "1441986300917-64674bd600d8",
     "1567401893414-76b7b1e5a7a5",
