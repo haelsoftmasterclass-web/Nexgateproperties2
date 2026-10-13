@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { ArticleCard } from "@/components/insights/ArticleCard";
 import { CtaBand } from "@/components/content/CtaBand";
+import { SitePhotos } from "@/components/content/SitePhotos";
 import { EmptyState } from "@/components/content/States";
 import { CheckList } from "@/components/content/Steps";
 import { Hero } from "@/components/home/Hero";
@@ -230,6 +231,8 @@ export default async function HomePage() {
           </div>
         </Container>
       </Section>
+
+      <SitePhotos />
 
       {/* Why choose */}
       <Section labelledBy="why-title">

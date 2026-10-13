@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 2026-10-11
+Last updated: 2026-10-13
 
 ## Phase summary
 
@@ -38,7 +38,7 @@ Last updated: 2026-10-11
 1. **Contact details**: confirm addresses, phone numbers and email, then tick "contact details confirmed" in Site settings. Until then the site shows them but omits them from structured data.
 2. **Office map**: tick "address verified" per office to show its map.
 3. **Logo**: a vector logo (SVG/AI/PDF). Current PNGs were cut from a compressed JPEG.
-4. **Photography**: property, project and team photos. Branded placeholders are used today.
+4. **Photography**: 7 site photos are on the home and property development pages, and 6 design renders illustrate the demo homes (2026-10-13). Still needed: photos of real listings, projects and the team.
 5. **Listings and projects**: real listings with confirmed prices and details. No listings have been invented.
 6. **About copy**: vision, mission and company story, then tick "about copy approved".
 7. **Legal**: privacy policy and terms reviewed by a lawyer; placeholders are marked "[To be confirmed]".
